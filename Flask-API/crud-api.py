@@ -20,7 +20,7 @@ class Languages(Resource):
             if lang['name'] == name:
                 return lang
 
-        return{'Search Value': None}
+        return{'Search Value': None},404 #set status 404 so tat it'll send response 404 instead of success(202).
     
     def post(self,name):
         lang = {'name':name}
