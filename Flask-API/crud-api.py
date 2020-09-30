@@ -28,13 +28,13 @@ class Languages(Resource):
         return{'Search Value': None},404 #set status 404 so tat it'll send response 404 instead of success(202).
     
     def post(self,name):
-        @jwt_required()
+        
         lang = {'name':name}
         languages.append(lang)
         return lang
     
     def delete(self, name):
-        @jwt_required()
+        
         for ind,lang in enumerate(languages):
             if lang['name'] == name:
                 deleted_lang = languages.pop(ind)
