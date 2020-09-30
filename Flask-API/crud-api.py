@@ -1,12 +1,17 @@
 # imports
 from flask import Flask
 from flask_restful import  Resource,Api
+from secure import authenticate,identity
+from flask_jwt import JWT,jwt_required
 
 # creating the class object 
 app = Flask(__name__)
 
-# wrapping the application using api call
+app.config['SECERT_KEY'] = 'hihellohowareyou'
+
+# wrapping the application using api,jwt call
 api = Api(app)
+jwt = JWT(app,authenticate,identity)
 
 #memory database which is just a list
 languages = []
@@ -23,11 +28,13 @@ class Languages(Resource):
         return{'Search Value': None},404 #set status 404 so tat it'll send response 404 instead of success(202).
     
     def post(self,name):
+        @jwt_required()
         lang = {'name':name}
         languages.append(lang)
         return lang
     
     def delete(self, name):
+        @jwt_required()
         for ind,lang in enumerate(languages):
             if lang['name'] == name:
                 deleted_lang = languages.pop(ind)
